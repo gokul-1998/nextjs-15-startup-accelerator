@@ -1,11 +1,9 @@
 import { auth, signOut, signIn } from '@/auth';
-import { redirect } from 'next/dist/server/api-utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Navbar = async() => {
-    const session=await auth();
-
+const Navbar = async () => {
+    const session = await auth();
 
     return (
         <header className='px-5 py-3 bg-white shadow-sm font-work-sans'>
@@ -19,21 +17,23 @@ const Navbar = async() => {
                             <Link href='/startup/create'>
                                 <span>Create</span>
                             </Link>
-                            <form action={async()=>{
+                            <form action={async () => {
                                 'use server';
-                                await signOut(options:{redirectTo:'/'});
-                            }}>Sign Out</form>
+                                await signOut({ redirectTo: '/' });
+                            }}>
+                                <button type='submit'>Sign Out</button>
+                            </form>
                             <Link href={`/user/${session.id}`}>
                                 <span>{session.user.name}</span>
                             </Link>
                         </>
                     ) : (
-                        <form action={async()=>{
+                        <form action={async () => {
                             'use server';
-                            await signIn({ provider: 'github' })}}>
-                                <button type='submit'>Login</button>
-
-                            </form>
+                            await signIn({ provider: 'github' });
+                        }}>
+                            <button type='submit'>Login</button>
+                        </form>
                     )}
                 </div>
             </nav>
